@@ -1,0 +1,126 @@
+/*CORE STYLING*/
+:root {
+    /*colors*/
+    --primary-color: #26203B;
+    --secondary-color: #F6F9F7;
+    --accent-color: #B93F56;
+    /*padding*/
+    --padding-low: 4px;
+    --padding-med: 8px;
+    --padding-high: 12px;
+    /*layout*/
+    --nav-height: 10vh;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+a {
+    color: inherit;
+}
+
+/*WEBPAGE HEADER*/
+main > header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color);
+    height: 90vh;
+}
+
+main > header > h1 {
+    font-family: 'Julius Sans One', sans-serif;
+    color: var(--accent-color);
+    font-size: 10em;
+}
+
+/*NAVIGATION*/
+nav {
+    min-height: var(--nav-height);
+    padding: var(--padding-high);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: var(--primary-color);
+
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+nav > a {
+    margin: auto;
+    padding: var(--padding-high);
+    color: var(--secondary-color);
+    text-decoration: none;
+    flex-grow: 1;
+    text-align: center;
+}
+
+nav > a:hover {
+    background-color: var(--accent-color);
+}
+
+/*PAGE CONTENT*/
+section:nth-of-type(2n+1) {
+    height: 100vh;
+    display: flex;
+    flex-flow: row;
+}
+
+section:nth-of-type(2n) {
+    height: 100vh;
+    display: flex;
+    flex-flow: row-reverse;
+    text-align: right;
+}
+
+section > aside, section > article {
+    width: 50%;
+}
+
+section > article {
+    padding: var(--padding-high);
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+section > article > header {
+    color: var(--accent-color);
+    font-size: 5em;
+    margin: 0;
+    font-weight: normal;
+}
+
+section > article > p {
+    margin: var(--padding-low);
+}
+
+section > article > ul {
+    list-style-type: none;
+    align-self: center;
+}
+
+section > article > ul > li {
+    text-align: center;
+}
+
+section > aside > figure {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+}
+section > aside > figure > img {
+    height: 100%;
+}
