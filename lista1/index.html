@@ -6,6 +6,9 @@
         <link href="css/classes.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Julius+Sans+One&display=swap"
               rel="stylesheet">
+        <link href="highlight/custom.css" rel="stylesheet">
+        <script src="highlight/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0"/>
     </head>
@@ -45,28 +48,74 @@
                     <p>Zrealizowałem tryliardy gigantycznych, enterprise-grade projektów opensource używanych przez
                        większość najmniejszych firm świata</p>
                     <ul>
-                        <li><a target="_blank" href="https://github.com/Bartor/Pong">Pong</a> - epicka gra z
-                                                                                              zaawansowanym AI
+                        <li><a target="_blank"
+                               href="https://github.com/Bartor/Pong">Pong</a> - epicka gra z zaawansowanym AI
                         </li>
-                        <li><a target="_blank" href="https://github.com/Bartor/chinesecheckers">Chińskie warcaby</a> -
-                                                                                                                     epiczniejsza
-                                                                                                                     gra
-                                                                                                                     z
-                                                                                                                     zaawansowańszym
-                                                                                                                     AI
+                        <li><a target="_blank"
+                               href="https://github.com/Bartor/chinesecheckers">Chińskie warcaby</a> - epiczniejsza gra z zaawansowańszym AI
                         </li>
-                        <li><a target="_blank" href="https://github.com/Bartor/WPPFit">WPPFit</a> - najepiczniejsza
-                                                                                                aplikacja do fitnessu z
-                                                                                                najzaawansowańszym AI
+                        <li><a target="_blank"
+                               href="https://github.com/Bartor/WPPFit">WPPFit</a> - najepiczniejsza aplikacja do fitnessu z najzaawansowańszym AI
                         </li>
                     </ul>
+                    <p>Piszę także bardzo spektakularny kod, co widać wyraźnie poniżej</p>
+                    <pre>
+                        <code>
+static inline int ilog2(int x) {
+	return sizeof(int) * CHAR_BIT - clz(x) - 1;
+}
+
+static inline int numberOfSetBits(int i) {
+	i = i - ((i >> 1) & 0x55555555);
+  	i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
+	return (((i + (i >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
+}
+
+int** generate(int k) {
+	int** t = malloc((1 << k)*sizeof(int*));
+	for (int i = 0; i < (1 << k); i++) {
+		t[i] = malloc(k * sizeof(int));
+		int ones = numberOfSetBits(i);
+		int limit = (ones + 1 > k - ones ? 1 << (ones + 1) : 1 << (k - ones));
+		for (int j = 0; j < k; j++) {
+			t[i][j] = !((1 << j) & i) ? (0x7ffffff & ((int) pcg32_random_r(&rng))) % limit + 1 : 0;
+		}
+	}
+	return t;
+}
+                        </code>
+                    </pre>
                 </article>
             </section>
             <section id="hobbies">
-                HOBBIES
+                <aside>
+                    <figure>
+                        <img src="content/foteczka.jpg">
+                    </figure>
+                </aside>
+                <article>
+                    <header>Zainteresowania</header>
+                    <p>Poza chodzeniem na uczelnię i robieniem list zadań, posiadam wiele bardzo szerokich, ciekawych,
+                       fascynujących,
+                       zajmujących i wymagających
+                       zainteresowań.</p>
+                    <p>Do najciekawszych z nich należą nie uprawianie sportu, nie odżywianie się zdrowo, nie
+                       oglądanie netflixa i nie granie na gitarze.</p>
+                </article>
             </section>
             <section id="contact">
-                CONTACT
+                <aside>
+                    <figure>
+                        <img src="content/papugi.jpg">
+                    </figure>
+                </aside>
+                <article>
+                    <header>Kontakt</header>
+                    <p>Najłatwiejszym i najszybszym sposobem kontaktu ze mną jest użycie <a
+                            target="_blank" href="https://tools.ietf.org/html/rfc2549">IPoAC</a>.</p>
+                    <p>Proszę chwycić swojego gołębia, szepnąć mu do ucha tekst Ody do Radości po niemiecku i
+                       wypuścić w stronę południowego zachodu, a na pewno wiadomość dotrze do mnie bez szwanku.</p>
+                </article>
             </section>
         </main>
     </body>

@@ -3,7 +3,10 @@
     /*colors*/
     --primary-color: #26203B;
     --secondary-color: #F6F9F7;
+    --third-color: #5BC0BE;
     --accent-color: #B93F56;
+    
+    --accent-alpha: rgba(185, 63, 86, 0.15);
     /*padding*/
     --padding-low: 4px;
     --padding-med: 8px;
@@ -14,10 +17,10 @@
 
 * {
     box-sizing: border-box;
-    font-family: 'Roboto Condensed', sans-serif;
 }
 
 html, body {
+    font-family: 'Roboto Condensed', sans-serif;
     margin: 0;
     padding: 0;
     height: 100%;
@@ -26,6 +29,11 @@ html, body {
 
 a {
     color: inherit;
+}
+
+pre, code, code > p, code > span {
+    direction: ltr;
+    font-family: monospace;
 }
 
 /*WEBPAGE HEADER*/
@@ -72,17 +80,14 @@ nav > a:hover {
 }
 
 /*PAGE CONTENT*/
-section:nth-of-type(2n+1) {
+section {
     height: 100vh;
     display: flex;
     flex-flow: row;
 }
 
 section:nth-of-type(2n) {
-    height: 100vh;
-    display: flex;
     flex-flow: row-reverse;
-    text-align: right;
 }
 
 section > aside, section > article {
@@ -90,30 +95,23 @@ section > aside, section > article {
 }
 
 section > article {
-    padding: var(--padding-high);
+    padding: calc(var(--nav-height) * 1.66) var(--padding-high) var(--padding-high) var(--padding-high);
     display: flex;
     flex-flow: column;
     justify-content: center;
 }
 
 section > article > header {
-    color: var(--accent-color);
+    color: var(--accent-alpha);
     font-size: 5em;
+    line-height: 0;
     margin: 0;
+    margin-inline-start: 0.3em;
     font-weight: normal;
 }
 
 section > article > p {
     margin: var(--padding-low);
-}
-
-section > article > ul {
-    list-style-type: none;
-    align-self: center;
-}
-
-section > article > ul > li {
-    text-align: center;
 }
 
 section > aside > figure {
