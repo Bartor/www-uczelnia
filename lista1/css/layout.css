@@ -94,7 +94,8 @@ nav > a:hover {
 
 /*PAGE CONTENT*/
 section {
-    height: 100vh;
+    overflow: hidden;
+    min-height: 100vh;
     display: flex;
     flex-flow: row;
 }
@@ -133,10 +134,28 @@ section > aside > figure {
     margin: 0;
 }
 section > aside > figure > img {
-    height: 100%;
+    min-height: 100%;
 }
 
 @media only screen and (max-width: 600px) {
+    section > aside {
+        display: none;
+    }
+    section > article {
+        width: 100%;
+    }
+
+    section > article > header {
+        font-size: 3em;
+    }
+}
+
+@media only screen and (max-height: 650px) {
+    section {
+        min-height: 50vw;
+        height: auto;
+    }
+
     section > aside {
         display: none;
     }
