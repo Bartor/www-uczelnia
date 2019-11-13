@@ -1,0 +1,158 @@
+:root {
+    --primary-color: #222;
+    --accent-color: #22caaf;
+    --accent-color-dark: #33627a;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+p {
+    margin: 0;
+    text-align: justify;
+    font-size: 1.5em;
+}
+
+* {
+    box-sizing: border-box;
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+body, html {
+    background-color: var(--primary-color);
+    margin: 0;
+    height: 100%;
+}
+
+img {
+    display: none;
+    max-height: 500px;
+    max-width: 500px;
+}
+
+nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--accent-color);
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+}
+
+#hamburger {
+    margin: 12px;
+    font-size: 3em;
+}
+
+#hamburger:hover {
+    color: var(--primary-color);
+}
+
+#hamburger:active {
+    color: var(--primary-color);
+}
+
+#menu {
+    width: 100%;
+    flex-grow: 1;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.expanded {
+    position: fixed;
+    transform: translateX(0);
+    width: 100%;
+    height: 100%;
+}
+
+article:nth-of-type(2n+1) {
+    text-align: right;
+}
+
+article {
+    padding: 148px 24px 24px 24px;
+}
+
+article > header > h1 {
+    color: var(--accent-color);
+    margin: 0;
+    font-size: 3em;
+    line-height: 0;
+}
+
+#menu > li:hover, #menu > li:hover > a {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+#menu > li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#menu a {
+    text-align: center;
+    width: 100%;
+    font-size: 3em;
+    text-decoration: none;
+}
+
+@media (min-width: 600px) {
+    img {
+        display: initial;
+    }
+
+    nav.expanded {
+        height: auto;
+    }
+
+    .hidden {
+        display: initial;
+    }
+
+    #hamburger {
+        display: none;
+    }
+
+    #menu {
+        display: flex;
+        flex-flow: row;
+    }
+
+    #menu > li {
+        padding: 7px;
+    }
+}
+
+@media (min-width: 1000px) {
+    #menu {
+        justify-content: center;
+    }
+
+    body {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+    }
+
+    main {
+        width: 1000px;
+    }
+
+    nav, nav.expanded {
+        width: 1000px !important;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
