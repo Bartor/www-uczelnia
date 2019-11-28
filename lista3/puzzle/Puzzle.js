@@ -1,33 +1,33 @@
 class PuzzlePiece {
-    constructor(image, xOffset, yOffset, width, height) {
+    constructor(serialNumber, image, xOffset, yOffset, width, height) {
+        this.serialNumber = serialNumber;
         this.image = image;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         this.width = width;
         this.height = height;
+        this.hovered = false;
     }
 
     draw(ctx, x, y, height, width) {
-        ctx.drawImage(
-            this.image,
-            this.xOffset,
-            this.yOffset,
-            this.width,
-            this.height,
-            x,
-            y,
-            height,
-            width
-        );
+        if (this.hovered) {
+            ctx.save();
+            ctx.globalAlpha = 0.5;
+        }
+        ctx.drawImage(this.image, this.xOffset, this.yOffset, this.width, this.height, x, y, height, width);
+        if (this.hovered) {
+            ctx.restore();
+        }
     }
 }
 
 class NullPiece {
-    constructor(color) {
+    constructor(serialNumber, color) {
+        this.serialNumber = serialNumber;
         this.color = color;
     }
 
-    draw(ctx, x, y, height, width) {
+    draw(ctx, x, y, width, height) {
         ctx.fillStyle = this.color;
         ctx.fillRect(x, y, width, height);
     }
@@ -39,10 +39,16 @@ export class Puzzle {
         this.columns = columns;
         this.canvas = canvas;
 
+        this.onWin = null;
+
         this.pieces = [];
         this.nullPosition = {
             row: -1, col: -1
         };
+    }
+
+    setOnWin(cb) {
+        this.onWin = cb;
     }
 
     loadImage(image) {
@@ -53,19 +59,14 @@ export class Puzzle {
         for (let r = 0; r < this.rows; r++) {
             this.pieces.push([]);
             for (let c = 0; c < this.columns; c++) {
+                let serial = r * this.columns + c;
                 if ((!nullFlag && (Math.random() < 1 / (this.rows + this.columns) || r === this.rows - 1 && c === this.columns - 1))) {
-                    this.pieces[r].push(new NullPiece('#0070ff'));
+                    this.pieces[r].push(new NullPiece(serial, '#8a1200'));
                     this.nullPosition.row = r;
                     this.nullPosition.col = c;
                     nullFlag = true;
                 } else {
-                    this.pieces[r].push(new PuzzlePiece(
-                        image,
-                        pieceWidth * c,
-                        pieceHeight * r,
-                        pieceWidth,
-                        pieceHeight
-                    ));
+                    this.pieces[r].push(new PuzzlePiece(serial, image, pieceWidth * c, pieceHeight * r, pieceWidth, pieceHeight));
                 }
             }
         }
@@ -86,10 +87,15 @@ export class Puzzle {
 
     swapNullWith(row, col) {
         if (this.canSwapWithNull(row, col)) {
+            this.pieces[row][col].hovered = false;
             [this.pieces[row][col], this.pieces[this.nullPosition.row][this.nullPosition.col]] =
                 [this.pieces[this.nullPosition.row][this.nullPosition.col], this.pieces[row][col]];
             this.nullPosition.row = row;
             this.nullPosition.col = col;
+
+            if (this.checkWon()) {
+                if (this.onWin) this.onWin();
+            }
         } else {
             throw `Swapping (${this.nullPosition.row}, ${this.nullPosition.col}) and (${row}, ${col}) is impossible`;
         }
@@ -104,62 +110,68 @@ export class Puzzle {
 
         this.pieces.forEach((row, r) => {
             row.forEach((piece, c) => {
-                piece.draw(
-                    ctx,
-                    pieceWidth * c,
-                    pieceHeight * r,
-                    pieceWidth,
-                    pieceHeight
-                )
+                piece.draw(ctx, pieceWidth * c, pieceHeight * r, pieceWidth, pieceHeight);
             });
         })
+    }
+
+    redrawPiece(row, column, canvasElement = this.canvas) {
+        let ctx = canvasElement.getContext('2d');
+        let pieceHeight = canvasElement.height / this.rows;
+        let pieceWidth = canvasElement.width / this.columns;
+
+        ctx.clearRect(pieceWidth * column, pieceHeight * row, pieceWidth, pieceHeight);
+        this.pieces[row][column].draw(ctx, pieceWidth * column, pieceHeight * row, pieceWidth, pieceHeight);
+    }
+
+    checkWon() {
+        let previousSerial = -1;
+        for (let row of this.pieces) {
+            for (let piece of row) {
+                if (piece.serialNumber < previousSerial) return false;
+                previousSerial = piece.serialNumber;
+            }
+        }
+        return true;
     }
 }
 
 export class PuzzleControls {
-    constructor(rows = 4, columns = 4) {
-        this.eventTarget = null;
-        this.puzzle = null;
-        this.handler = null;
-
-        this.rows = rows;
-        this.columns = columns;
-    }
-
-    onPuzzle(puzzle) {
+    constructor(puzzle, element) {
         this.puzzle = puzzle;
-        return this;
-    }
+        element.addEventListener('click', event => {
+            let row = Math.floor(event.layerY / (element.height / puzzle.rows));
+            let col = Math.floor(event.layerX / (element.width / puzzle.columns));
 
-    fromInput(element) {
-        if (this.eventTarget) this.eventTarget.removeEventListener('click', this.handler);
-        this.eventTarget = element;
-        let handler = this.createClickHandler(this);
-        this.handler = handler;
-        this.eventTarget.addEventListener('click', handler);
-        return this;
-    }
+            try {
+                this.puzzle.swapNullWith(row, col);
+                this.puzzle.draw();
+            } catch (e) {
+                console.log(`You can't do it! ${e}`);
+            }
+        });
+        element.addEventListener('pointermove', event => {
+            let row = Math.floor(event.layerY / (element.height / puzzle.rows));
+            let col = Math.floor(event.layerX / (element.width / puzzle.columns));
 
-    createClickHandler(thisArg) {
-        return event => {
-            if (thisArg.puzzle === null) throw 'Please attach a Puzzle';
-
-            let row = Math.floor(event.layerY / (thisArg.eventTarget.height / thisArg.columns));
-            let col = Math.floor(event.layerX / (thisArg.eventTarget.width / thisArg.rows));
-
-            this.puzzle.swapNullWith(row, col);
-            this.puzzle.draw();
-        }
+            this.puzzle.pieces.forEach((piecesRow, r) => piecesRow.forEach((piece, c) => {
+                if (piece.hovered !== (r === row && c === col) && puzzle.canSwapWithNull(r, c)) {
+                    piece.hovered = r === row && c === col;
+                    this.puzzle.redrawPiece(r, c);
+                }
+            }));
+        });
     }
 }
 
-export function puzzleMixup(iterations, puzzle, cool = false, time = 2000) {
+export function puzzleMixup(iterations, puzzle, cool = false, time = 2000, cb) {
     let i = iterations;
     let nullRow = puzzle.nullPosition.row;
     let nullCol = puzzle.nullPosition.col;
 
     while (i-- > 0) {
         let row, col;
+        let ii = i;
         if (Math.random() > 0.5) { // swap rows/columns
             col = nullCol;
             if (nullRow === puzzle.rows - 1) {
@@ -183,12 +195,13 @@ export function puzzleMixup(iterations, puzzle, cool = false, time = 2000) {
             setTimeout(() => {
                 puzzle.swapNullWith(row, col);
                 puzzle.draw();
-            }, time/iterations*(iterations - i));
+                if (ii === 0 && cb) cb();
+            }, time / iterations * (iterations - i));
         } else {
             puzzle.swapNullWith(row, col);
-            puzzle.draw();
         }
         nullCol = col;
         nullRow = row;
     }
+    puzzle.draw();
 }

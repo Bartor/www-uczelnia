@@ -13,6 +13,9 @@ main {
 main > section {
     display: flex;
     flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 figure {
@@ -30,6 +33,10 @@ canvas, figure {
 figure > img {
     height: 100%;
     width: 100%;
+}
+
+form {
+    margin: 8px;
 }
 
 input[type="checkbox"] {
