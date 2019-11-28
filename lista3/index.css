@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+figure {
+    min-height: 500px;
+    min-width: 500px;
+    max-height: 500px;
+    max-width: 500px;
+}
+
+canvas, figure {
+    margin: 24px;
+    border: 1px solid black;
+}
+
+
+figure > img {
+    height: 100%;
+    width: 100%;
+}
