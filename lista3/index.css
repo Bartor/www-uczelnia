@@ -1,11 +1,18 @@
 * {
     box-sizing: border-box;
+    font-family: monospace;
 }
 
 main {
     display: flex;
+    flex-flow: column;
     justify-content: center;
     align-items: center;
+}
+
+main > section {
+    display: flex;
+    flex-flow: row;
 }
 
 figure {
@@ -20,8 +27,11 @@ canvas, figure {
     border: 1px solid black;
 }
 
-
 figure > img {
     height: 100%;
     width: 100%;
+}
+
+input[type="checkbox"] {
+    vertical-align: middle;
 }

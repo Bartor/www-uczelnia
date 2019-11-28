@@ -8,11 +8,24 @@
     </head>
     <body>
         <main>
-            <canvas height="500" width="500">
-            </canvas>
-            <figure>
-                <img src="https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/d/domestic-dog_thumb.jpg">
-            </figure>
+            <section>
+                <canvas height="500" width="500">
+                </canvas>
+                <figure>
+                    <img src="https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/d/domestic-dog_thumb.jpg">
+                </figure>
+            </section>
+            <form>
+                <label>
+                    Iterations:
+                    <input type="number" value="50" min="1" id="iterations">
+                </label>
+                <label>
+                    Make it cool:
+                    <input type="checkbox" id="cool">
+                </label>
+                <button id="mixup">Mixup!</button>
+            </form>
         </main>
     </body>
 </html>

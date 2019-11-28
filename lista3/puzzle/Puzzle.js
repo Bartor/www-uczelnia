@@ -144,11 +144,51 @@ export class PuzzleControls {
         return event => {
             if (thisArg.puzzle === null) throw 'Please attach a Puzzle';
 
-            let row = Math.floor(event.layerY/(thisArg.eventTarget.height/thisArg.columns));
-            let col = Math.floor(event.layerX/(thisArg.eventTarget.width/thisArg.rows));
+            let row = Math.floor(event.layerY / (thisArg.eventTarget.height / thisArg.columns));
+            let col = Math.floor(event.layerX / (thisArg.eventTarget.width / thisArg.rows));
 
             this.puzzle.swapNullWith(row, col);
             this.puzzle.draw();
         }
+    }
+}
+
+export function puzzleMixup(iterations, puzzle, cool = false, time = 2000) {
+    let i = iterations;
+    let nullRow = puzzle.nullPosition.row;
+    let nullCol = puzzle.nullPosition.col;
+
+    while (i-- > 0) {
+        let row, col;
+        if (Math.random() > 0.5) { // swap rows/columns
+            col = nullCol;
+            if (nullRow === puzzle.rows - 1) {
+                row = nullRow - 1;
+            } else if (nullRow === 0) {
+                row = 1;
+            } else {
+                row = nullRow + (Math.random() > 0.5 ? -1 : 1);
+            }
+        } else {
+            row = nullRow;
+            if (nullCol === puzzle.columns - 1) {
+                col = nullCol - 1;
+            } else if (nullCol === 0) {
+                col = 1;
+            } else {
+                col = nullCol + (Math.random() > 0.5 ? -1 : 1);
+            }
+        }
+        if (cool) {
+            setTimeout(() => {
+                puzzle.swapNullWith(row, col);
+                puzzle.draw();
+            }, time/iterations*(iterations - i));
+        } else {
+            puzzle.swapNullWith(row, col);
+            puzzle.draw();
+        }
+        nullCol = col;
+        nullRow = row;
     }
 }
