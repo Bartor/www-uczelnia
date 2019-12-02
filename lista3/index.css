@@ -39,6 +39,11 @@ form {
     margin: 8px;
 }
 
+#gallery > img {
+    width: 100px;
+    border: 1px solid black;
+}
+
 input[type="checkbox"] {
     vertical-align: middle;
 }

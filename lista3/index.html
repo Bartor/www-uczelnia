@@ -13,7 +13,7 @@
                 <canvas height="500" width="500">
                 </canvas>
                 <figure>
-                    <img src="https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/d/domestic-dog_thumb.jpg">
+                    <img id="image">
                 </figure>
             </section>
             <form>
@@ -38,12 +38,11 @@
                 </label>
                 <label>
                     Image source:
-                    <input type="text"
-                           value="https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/d/domestic-dog_thumb.jpg"
-                           id="imageSource">
+                    <input type="text" id="imageSource" placeholder="Empty for current image">
                 </label>
                 <button id="newGame">New game</button>
             </form>
+            <div id="gallery"></div>
         </main>
     </body>
 </html>
