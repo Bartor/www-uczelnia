@@ -35,6 +35,8 @@ class NullPiece {
 
 export class Puzzle {
     constructor(canvas, rows = 4, columns = 4) {
+        this.beingMixed = false;
+
         this.rows = rows;
         this.columns = columns;
         this.canvas = canvas;
@@ -93,7 +95,7 @@ export class Puzzle {
             this.nullPosition.row = row;
             this.nullPosition.col = col;
 
-            if (this.checkWon()) {
+            if (!this.beingMixed && this.checkWon()) {
                 if (this.onWin) this.onWin();
             }
         } else {
@@ -165,6 +167,9 @@ export class PuzzleControls {
 }
 
 export function puzzleMixup(iterations, puzzle, cool = false, time = 2000, cb) {
+    if (puzzle.beingMixed) return;
+    puzzle.beingMixed = true;
+
     let i = iterations;
     let nullRow = puzzle.nullPosition.row;
     let nullCol = puzzle.nullPosition.col;
@@ -195,7 +200,10 @@ export function puzzleMixup(iterations, puzzle, cool = false, time = 2000, cb) {
             setTimeout(() => {
                 puzzle.swapNullWith(row, col);
                 puzzle.draw();
-                if (ii === 0 && cb) cb();
+                if (ii === 0 && cb) {
+                    puzzle.beingMixed = false;
+                    cb();
+                }
             }, time / iterations * (iterations - i));
         } else {
             puzzle.swapNullWith(row, col);
@@ -203,5 +211,6 @@ export function puzzleMixup(iterations, puzzle, cool = false, time = 2000, cb) {
         nullCol = col;
         nullRow = row;
     }
+    if (!cool) puzzle.beingMixed = false;
     puzzle.draw();
 }

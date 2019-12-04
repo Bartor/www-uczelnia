@@ -10,11 +10,8 @@
     <body>
         <main>
             <section>
-                <canvas height="500" width="500">
-                </canvas>
-                <figure>
-                    <img id="image">
-                </figure>
+                <div id="canvas-container"></div>
+                <canvas id="image"></canvas>
             </section>
             <form>
                 <label>
@@ -25,7 +22,7 @@
                     Make it cool:
                     <input type="checkbox" id="cool">
                 </label>
-                <button id="mixup">Mixup!</button>
+                <button id="mix">Mix up!</button>
             </form>
             <form>
                 <label>
@@ -36,11 +33,6 @@
                     Columns:
                     <input type="number" min="1" value="4" id="columns">
                 </label>
-                <label>
-                    Image source:
-                    <input type="text" id="imageSource" placeholder="Empty for current image">
-                </label>
-                <button id="newGame">New game</button>
             </form>
             <div id="gallery"></div>
         </main>

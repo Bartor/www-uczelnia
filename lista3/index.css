@@ -3,6 +3,10 @@
     font-family: monospace;
 }
 
+body, html {
+    margin: 0;
+}
+
 main {
     display: flex;
     flex-flow: column;
@@ -18,29 +22,14 @@ main > section {
     align-items: center;
 }
 
-figure {
-    min-height: 500px;
-    min-width: 500px;
-    max-height: 500px;
-    max-width: 500px;
-}
-
-canvas, figure {
-    margin: 24px;
-    border: 1px solid black;
-}
-
-figure > img {
-    height: 100%;
-    width: 100%;
-}
-
 form {
     margin: 8px;
 }
 
 #gallery > img {
     width: 100px;
+    height: 100px;
+    margin: 8px;
     border: 1px solid black;
 }
 

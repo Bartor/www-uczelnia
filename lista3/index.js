@@ -6,103 +6,112 @@ const images = [
     {thumb : 'content/JPEG/3.jpg', full: 'content/3.png'}
 ];
 
-window.addEventListener('load', () => {
-    let canvas = document.querySelector('canvas');
-    const img = document.getElementById('image');
+function resizeCanvas(canvas, imageToDraw) {
+    if (window.innerHeight > window.innerWidth) {
+        if (window.innerHeight*0.4 > window.innerWidth) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerWidth;
+        } else {
+            canvas.height = window.innerHeight*0.4;
+            canvas.width = window.innerHeight*0.4;
+        }
+    } else {
+        canvas.height = window.innerWidth*0.4;
+        canvas.width = window.innerWidth*0.4;
+    }
+    if (imageToDraw) {
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(imageToDraw, 0, 0, imageToDraw.naturalWidth, imageToDraw.naturalHeight, 0, 0, canvas.height, canvas.width);
+    }
+}
 
+function newGame(rows, columns, image, container) {
+    let canvas = document.createElement('canvas');
+
+    while (container.firstChild) container.removeChild(container.firstChild);
+    container.append(canvas);
+    resizeCanvas(canvas);
+
+    let game = new Puzzle(canvas, rows, columns);
+    new PuzzleControls(game, canvas);
+
+    game.setOnWin(() => alert('You won!'));
+    game.loadImage(image);
+    game.draw();
+
+    return {
+        game: game,
+        canvas: canvas
+    };
+}
+
+function generateGallery(images, container, imageCanvas, gameContainer) {
+    let data = {
+        game: null,
+        image: null,
+        canvas: null,
+    };
+    images.forEach(image => {
+        let img = document.createElement('img');
+        img.src = image.thumb;
+        img.addEventListener('click', () => {
+            let rows = Number(document.getElementById('rows').value);
+            let cols = Number(document.getElementById('columns').value);
+
+            loadImage(image.full).then((image) => {
+                resizeCanvas(imageCanvas, image);
+                let result = newGame(rows, cols, image, gameContainer);
+                data.game = result.game;
+                data.canvas = result.canvas;
+                data.image = image;
+            }).catch(err => {
+                console.error(err);
+                alert('There was an error! Is the url correct?');
+            });
+        });
+        container.append(img);
+    });
+    return data;
+}
+
+function loadImage(source) {
+    let image = new Image();
+    let promise = new Promise((resolve, reject) => {
+        image.addEventListener('load', () => resolve(image));
+        image.addEventListener('error', err => reject(err));
+    });
+    image.src = source;
+    return promise;
+}
+
+window.addEventListener('load', () => {
+    const canvasContainer = document.getElementById('canvas-container');
+    const imageCanvas = document.getElementById('image');
+    const mixUpButton = document.getElementById('mix');
     const gallery = document.getElementById('gallery');
 
-    const mixupButton = document.getElementById('mixup');
-    const newGameButton = document.getElementById('newGame');
+    const data = generateGallery(images, gallery, imageCanvas, canvasContainer);
 
-    const toggleButtons = (state) => {
-        mixupButton.disabled = !state;
-        newGameButton.disabled = !state;
-    };
+    window.addEventListener('resize', () => {
+        if (data.image) {
+            resizeCanvas(imageCanvas, data.image);
+        }
+        if (data.canvas) {
+            resizeCanvas(data.canvas);
+        }
+        if (data.game) {
+            data.game.draw();
+        }
+    });
 
-    let getGame;
-    const newGame = (rows, columns) => {
-        let newCanvas = document.createElement('canvas');
-        newCanvas.height = 500;
-        newCanvas.width = 500;
-        newCanvas.id = 'canvas';
-        canvas.parentNode.replaceChild(newCanvas, canvas);
-        canvas = newCanvas;
-
-        let game = new Puzzle(canvas, rows, columns);
-        new PuzzleControls(game, canvas);
-
-        game.setOnWin(() => alert('You won!'));
-        getGame = () => game;
-        game.loadImage(img);
-        game.draw();
-    };
-
-    const generateGalleries = (imgs, container) => {
-        imgs.forEach(image => {
-            let imgg = document.createElement('img');
-            imgg.src = image.thumb;
-            imgg.addEventListener('click', () => {
-                loadImage(image.full).then(() => {
-                    newGame();
-                }).catch(err => {
-                    console.error(err);
-                    alert('There was an error! Is the url correct?');
-                    toggleButtons(true);
-                })
-            });
-            container.append(imgg);
-        });
-    };
-
-    const loadImage = src => {
-        let now = false;
-        if (img.src === src) now = true;
-        let promise = new Promise((resolve, reject) => {
-            if (now) {
-                resolve();
-                return;
-            }
-            img.addEventListener('load', () => resolve());
-            img.addEventListener('error', err => reject(err));
-        });
-        img.src = src;
-        return promise;
-    };
-
-    generateGalleries(images, gallery);
-
-    mixupButton.addEventListener('click', event => {
+    mixUpButton.addEventListener('click', event => {
         event.preventDefault();
         let iterations = Number(document.getElementById('iterations').value);
         let cool = document.getElementById('cool').checked;
 
-        if (cool)  {
-            toggleButtons(false);
-        }
-        puzzleMixup(iterations, getGame(), cool, 2000, () => {
-            toggleButtons(true);
-        });
-    });
-
-    newGameButton.addEventListener('click', event => {
-        event.preventDefault();
-        let rows = Number(document.getElementById('rows').value);
-        let cols = Number(document.getElementById('columns').value);
-        let imgS = document.getElementById('imageSource').value;
-
-        if (imgS === '') {
-            imgS = img.src;
-        }
-
-        toggleButtons(false);
-        loadImage(imgS).then(() => {
-            newGame(rows, cols);
-            toggleButtons(true);
-        }).catch(err => {
-            console.error(err);
-            alert('There was an error! Is the url correct');
-            toggleButtons(true);
+        mixUpButton.enabled = false;
+        puzzleMixup(iterations, data.game, cool, 2000, () => {
+            mixUpButton.enabled = false;
         });
     });
 });
