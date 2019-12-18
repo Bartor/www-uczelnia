@@ -1,0 +1,164 @@
+:root {
+    --primary-color: #2D3047;
+    --primary-color-light: #93B7BE;
+    --accent-color: #E0CA3C;
+
+    --nav-header-heigth: 80px;
+}
+
+* {
+    font-family: 'Inria Serif', serif;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+button:focus, a:focus {
+    outline: none;
+}
+
+body, html {
+    scroll-behavior: smooth;
+    background-color: var(--primary-color);
+
+    height: 100%;
+    margin: 0;
+    position: relative;
+}
+
+nav {
+    z-index: 1;
+
+    min-height: var(--nav-header-heigth);
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    background-color: var(--primary-color-light);
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+nav.opened {
+    height: 100%;
+}
+
+nav.closed {
+    height: auto;
+}
+
+nav header {
+    height: var(--nav-header-heigth);
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+}
+
+nav header button {
+    background-color: transparent;
+    padding: 10px;
+    border: 10px;
+}
+
+nav header button i {
+    color: var(--primary-color);
+}
+
+nav.opened i#bars {
+    display: none;
+}
+
+nav.closed i#close {
+    display: none;
+}
+
+nav.opened ul {
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav.closed ul {
+    display: none;
+}
+
+nav li {
+    list-style: none;
+    width: 100%;
+    margin: 10px;
+}
+
+nav li a {
+    transition: background-color,color 200ms;
+    display: block;
+    text-align: center;
+
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: var(--primary-color-light);
+}
+
+nav li:hover a {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}
+
+main {
+    z-index: 0;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+main.blurred {
+    filter: blur(5px);
+
+    user-select: none;
+    overflow: hidden;
+}
+
+main section:first-of-type {
+    margin-top: calc(var(--nav-header-heigth) + 10px);
+}
+
+main section {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    background-color: var(--primary-color-light);
+}
+
+main section article {
+    text-align: justify;
+}
+
+main section article ol {
+    padding-right: 40px;
+}
+
+main section article header {
+    font-weight: bold;
+}
+
+main section > header {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 1000px) {
+    nav {
+        width: 600px;
+    }
+}

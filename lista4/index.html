@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$']]
+                },
+                options: {
+                    skipHtmlTags: ["script", "style", "textarea"]
+                }
+            };
+        </script>
+        <script type="text/javascript" src="index.js"></script>
+        <link rel="stylesheet" href="index.css">
+        <link href="https://fonts.googleapis.com/css?family=Inria+Serif&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+              integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"/>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Zakamarki kryptografii</title>
+    </head>
+    <body>
+        <nav class="closed">
+            <header>
+                <button id="nav-toggle-button">
+                    <i class="fas fa-bars fa-3x" id="bars"></i>
+                    <i class="fas fa-window-close fa-3x" id="close"></i>
+                </button>
+            </header>
+            <ul>
+                <li><a href="#goldwasser">Schemat Goldwasser-Micali</a></li>
+                <li><a href="#secrete">Dzielenie sekretu</a></li>
+                <li><a href="#square">Reszta kwadratowa</a></li>
+                <li><a href="#legendre">Symbol Lagendre'a</a></li>
+            </ul>
+        </nav>
+        <main>
+            <section id="goldwasser">
+                <header>Schemat Goldwasser-Micali szyfrowania probabilistycznego</header>
+                <article>
+                    <header>Algorytm generowania kluczy</header>
+                    <ol type="a">
+                        <li>Wybierz losowo dwie duże liczby pierwsze $p$ oraz $q$ (podobnego rozmiaru),</li>
+                        <li>Policz $n = pq$,</li>
+                        <li>Wybierz $y \in \mathbb{Z}_n$, takie, że $y$ jest nieresztą kwadratową modulo $n$ i symbol Jacobiego
+                            $\left( \frac{y}{n} = 1 \right)$ (czyli $y$ jest pseudokwadratem modulo $n$),
+                        </li>
+                        <li>Klucz publiczny stanowi para $(n, y)$, zaś odpowiadający mu klucz prywatny to para $(p, q)$.</li>
+                    </ol>
+                </article>
+                <article>
+                    <header>Algorytm szyfrowania</header>
+                    <p>Chcąc zaszyfrować wiadomość $m$ przy uzyciu klucza publicznego $(n, y)$ wykonaj kroki:</p>
+                    <ol type="a">
+                        <li>Przestaw $m$ w postaci łańcucha binarnego $m = m_1m_2...m_t$ długości $t$,</li>
+                        <li>Dla $i$ od $1$ do $t$ wybierz losowe $x \in \mathbb{Z}_n^*$, jeżeli $m_i$ jest równe $1$,
+                            ustaw $c_i$ na $yx^2modn$, w przeciwynm wypadku ustaw $c_i$ na $x^2modn$,
+                        </li>
+                        <li>Kryptogram wiadomości $m$ stanowi $c = (c_1, c_2, ... c_t)$</li>
+                    </ol>
+                </article>
+                <article>
+                    <header>Algorytm deszyfrowania</header>
+                    <p>Chcąc odzyskać wiadomość z kryptogramu $c$ przy użyciu klucza prywatnego $(p, q)$ wykonaj
+                       kroki:</p>
+                    <ol type="a">
+                        <li>Dla $i$ od $1$ do $t$ policz symbol Legendre'a $e_i = \frac{c_i}{p}$, jeżeli jest on
+                            równy jeden, ustaw $m_i$ na zero, w przeciwnym wypadku ustaw $m_i$ na jeden,
+                        </li>
+                        <li>Zdeszyfrowana wiadomość to $m = m_1m_2...m_t$.</li>
+                    </ol>
+                </article>
+            </section>
+            <section id="secrete">2</section>
+            <section id="square">3</section>
+            <section id="legendre">4</section>
+        </main>
+    </body>
+</html>
