@@ -1,6 +1,5 @@
 window.addEventListener('load', () => {
     const nav = document.querySelector('nav');
-    const navToggleButton = document.getElementById('nav-toggle-button');
     const main = document.querySelector('main');
 
     let navOpened = nav.className === 'opened';

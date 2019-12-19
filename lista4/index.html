@@ -31,8 +31,9 @@
             </header>
             <ul>
                 <li><a href="#goldwasser">Schemat Goldwasser-Micali</a></li>
-                <li><a href="#secrete">Dzielenie sekretu</a></li>
                 <li><a href="#square">Reszta kwadratowa</a></li>
+                <li><a href="#jacobi">Symbol Jacobiego</a></li>
+                <li><a href="#shamir">Schemat progowy</a></li>
                 <li><a href="#legendre">Symbol Lagendre'a</a></li>
             </ul>
         </nav>
@@ -73,9 +74,136 @@
                     </ol>
                 </article>
             </section>
-            <section id="secrete">2</section>
-            <section id="square">3</section>
-            <section id="legendre">4</section>
+            <section id="square">
+                <header>Reszta/niereszta kwadratowa</header>
+                <article>
+                    <header>Definicja</header>
+                    <p>Niech $a \in \mathbb{Z}_n$. Mówimy, że $a$ jest resztą kwadratową modulo $n$ (kwadratem modulo $n$,
+                       jeżeli istnieje $x \in \mathbb{Z}^*_n$ takie, że $x^2 \equiv a (\mod p)$. Jeżeli takie $x$ nie istnieje,
+                       to wówczas $a$ nazywamy nieresztą kwadratową modulo $n$. Zbiór wszystkich reszt kwadratowych modulo $n$
+                       oznaczamy $Q_n$, zaś zbiór wszystkich niereszt kwadratowych modulo $n$ oznaczamy $\bar{Q}_n$.
+                    </p>
+                </article>
+            </section>
+            <section id="jacobi">
+                <header>Symbol Legendre'a i Jacobiego</header>
+                <article>
+                    <header>Definicja</header>
+                    <p>Niech $p$ będzie nieparzystą liczbą pierwszą, a $a$ liczbą całkowitą.
+                       Symbol Legendre'a $\left( \frac{a}{p}\right)$ jest zdefiniowany jako:
+                       $$\left( \frac{a}{p} \right )= \left\{ \begin{array}{lll}
+                       & 0 & \textrm{jeżeli $p | a$}\\
+                       & 1 & \textrm{jeżeli $a \in Q_p$}\\
+                       & -1 & \textrm{jeżeli $a \in \bar{Q}_p$}\\
+                       \end{array} \right.
+                       $$
+                    </p>
+                </article>
+                <article>
+                    <header>Właściwości symbolu Legendre'a</header>
+                    <p>Niech $a, b \in \mathbb{Z}$, zaś $p$ to nieparzysta liczba pierwsza. Wówczas:</p>
+                    <ul>
+                        <li>$\left( \frac{a}{p} \right) \equiv a^{\frac{(p-1)}{2}} (\mod p)$</li>
+                        <li>$\left( \frac{ab}{p} \right) = \left( \frac{a}{p} \right) \left( \frac{b}{p} \right)$</li>
+                        <li>$a \equiv b (\mod p) \Rightarrow \left( \frac{a}{p} \right) = \left( \frac{b}{p} \right)$</li>
+                        <li>$\left( \frac{2}{p} \right) = (-1)^{\frac{(p^2 - 1)}{8}}$</li>
+                        <li>Jeżeli $q$ jest nieparzystą liczbą pierwszą inną od $p$ to:
+                            $$\left( \frac{p}{q} \right) = \left( \frac{q}{p} \right) (-1)^{\frac{(p - 1)(q - 1)}{4}}$$
+                        </li>
+                    </ul>
+                </article>
+                <article>
+                    <header>Definicja</header>
+                    <p>Niech $n \geq 3$ będzie liczbą nieparzystą, a jej rozkład na czynniki pierwsze to $n =
+                       p^{e_1}_1 p^{e_2}_2 \ldots p^{e_k}_k$. <i>Symbol Jacobiego</i> $\left( \frac{a}{n} \right)$ jest
+                       zdefiniowany jako:
+                       $$\left( \frac{a}{n} \right) = \left( \frac{a}{p_1} \right)^{e_1} \left( \frac{a}{p_2} \right)^{e_2} \ldots
+                       \left( \frac{a}{p_k} \right)^{e_k} $$
+                       Jeżeli $n$ jest liczbą pierwszą, to symbol Jacobiego jest symbolem Legendre'a.
+                    </p>
+                </article>
+                <article>
+                    <header>Własności symbolu Jacobiego</header>
+                    <p>Niech $a, b \in \mathbb{Z}$, zaś $m, n \geq 3$ to nieparzyste liczby całkowite. Wówczas:</p>
+                    <ul>
+                        <li>$\left( \frac{a}{n} \right) = 0, 1$, albo -1. Ponadto $\left( \frac{a}{n} \right) = 0 \iff gcd(a, n) \neq 1$</li>
+                        <li>$\left( \frac{ab}{n} \right) = \left( \frac{a}{n} \right) \left( \frac{b}{n} \right)$</li>
+                        <li>$\left( \frac{a}{mn} \right) = \left( \frac{a}{m} \right) \left( \frac{a}{n} \right)$</li>
+                        <li>$a \equiv b (\mod n) \Rightarrow \left( \frac{a}{n} \right) = \left( \frac{b}{n} \right)$</li>
+                        <li>$\left( \frac{1}{n} \right) = 1$</li>
+                        <li>$\left( \frac{-1}{n} \right) = (-1)^{\frac{(n - 1)}{2}}$</li>
+                        <li>$\left( \frac{2}{n} \right) = (-1)^{\frac{(n^2 - 1)}{8}}$</li>
+                        <li>$\left( \frac{m}{n} \right) = \left( \frac{n}{m} \right) (-1)^{\frac{(m - 1)(n - 1)}{4}}$</li>
+                    </ul>
+                </article>
+                <article>
+                    <header>
+                        Algorytm obliczania symbolu Jacobiego $\left( \frac{a}{n} \right)$ (i Legendre'a) dla nieparzystej liczby
+                        całkowitej $n \geq 3$ oraz całkowitego $0 \leq a \le n$
+                    </header>
+                    <p>JACOBI(a, n):</p>
+                    <ol type="a">
+                        <li>jeżeli $a = 0$, zwróć $0$</li>
+                        <li>jeżeli $a = 1$, zwróć $1$</li>
+                        <li>ustaw $a$ na $2^ea_1$, gdzie $a_1$ jest nieparzyste</li>
+                        <li>jeżeli $e$ jest nieparzyste, ustaw $s \leftarrow 1$, w przeciwnym wypadku ustaw $s
+                            \leftarrow 1$ jeżeli $n \equiv 1 mod 8 \lor n \equiv 7 mod 8$ lub ustaw $s \leftarrow
+                            -1$ jeżeli $n \equiv 3 mod 8 \lor n \equiv 5 mod 8$
+                        </li>
+                        <li>jeżeli $n \equiv 3 mod 4 \land a_1 \equiv 3 mod 4$ zmień znak $s$</li>
+                        <li>ustaw $n_1 \leftarrow n mod a_1$</li>
+                        <li>jeżeli $a_1 = 1$, zwróć $s$, w przeciwnym wypadku zwróć $s*JACOBI(n_1, a_1)</li>
+                    </ol>
+                </article>
+            </section>
+            <section id="shamir">
+                <header>Schemat progowy $(t, n)$ dzielenia sekretu Shamira</header>
+                <article>
+                    <header>Cel</header>
+                    <p>
+                        Zaufana Trzecia Strona $T$ ma sekret $S \geq 0$, który chce podzielić pomiędzy $n$ uczestników tak,
+                        aby dowolnych $t$ spośród niech mogło sekret odtworzyć.
+                    </p>
+                </article>
+                <article>
+                    <header>Faza inicjalizacji</header>
+                    <ul>
+                        <li>$T$ wybiera liczbę pierwszą $p \ge max(S, n)$ i definiuje $a_0 = S$,</li>
+                        <li>$T$ wybiera losowo i niezależnie $t - 1$ współczynników $a_1, ..., a_{t-1} \in \mathbb{Z}_p$,</li>
+                        <li>$T$ definiuje wielomian nad $\mathbb{Z}_p$: $$f(x) = a_0 + \sum^{t-1}_{j = 1} a_jx^j,$$</li>
+                        <li>
+                            Dla $1 \leq i \leq n$ Zaufana Trzecia Strona $T$ wybiera losowo $x_i \in \mathbb{Z}_p$, oblicza: $S_i =
+                            f(x_i) \mod p$ i bezpiecznie przekazuje parę $(x_i, S_i)$ uzytkownikowi $P_i$.
+                        </li>
+                    </ul>
+                </article>
+                <article>
+                    <header>Faza łączenia udziałów w sekret</header>
+                    <p>
+                        Dowolna grupa $t$ lub więcej użytkowników łączy swoje udziały - $t$ różnych punktów $(x_i, S_i)$
+                        wielomianu $f$ i dzięki interpolacji Lagrange'a odzyskuje sekret $S = a_0 = f(0)$.
+                    </p>
+                </article>
+            </section>
+            <section id="legendre">
+                <header>Interpolacja Lagrenge'a</header>
+                <article>
+                    <header>Definicja</header>
+                    <p>
+                        Mając dane $t$ różnych punktów $(x_i, y_i)$ nienanego wielomianu $f$ stopnia mniejszego od $t$ możemy
+                        policzyć jego współczynniki korzystając ze wzoru: $$f(x) = \sum^t_{i = 1}\left( y_i \prod_{1 \leqslant j
+                        \leqslant t,\, j\neq i} \frac{x - x_j}{x_i - x_j} \right) \mod p$$
+                    </p>
+                </article>
+                <article>
+                    <header>Wskazówka</header>
+                    <p>
+                        W schemacie Shamira, aby odzyskać sekret $S$, użytkownicy nie muszą znać całego wielomianu $f$. Wstawiając
+                        do wzoru na iterpolację Lagrange'a $x = 0$, dostajemy wersję uproszczoną, ale wystarczającą aby policzyć sekret $S = f(0)$:
+                        $$f(x) = \sum^t_{i = 1} \left(y_i \prod_{1 \leqslant j \leqslant t,\, j\neq i} \frac{x_j}{x_j - x_i} \right) \mod p$$
+                    </p>
+                </article>
+            </section>
         </main>
     </body>
 </html>
