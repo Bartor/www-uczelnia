@@ -1,0 +1,36 @@
+form {
+    z-index: 5;
+}
+
+section form {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+form textarea {
+    width: 200px;
+}
+
+form > section {
+    display: flex;
+    justify-content: space-around;
+}
+
+form input[type="button"], form input[type="submit"] {
+    transition: background-color,color 200ms;
+    display: block;
+    text-align: center;
+
+    width: 200px;
+    margin: 10px;
+    border: 0;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: var(--primary-color-light);
+}
+
+form input[type="button"]:hover, form input[type="submit"]:hover {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+}

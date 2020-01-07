@@ -19,6 +19,15 @@ button:focus, a:focus {
     outline: none;
 }
 
+span.bold {
+    font-weight: bold;
+}
+
+span > a {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
 ::-webkit-scrollbar {
     width: 0;
     background: transparent;
@@ -34,7 +43,7 @@ body, html {
 }
 
 nav {
-    z-index: 1;
+    z-index: 10;
 
     min-height: var(--nav-header-heigth);
     padding: 10px;
@@ -104,9 +113,10 @@ nav li {
     list-style: none;
     width: 100%;
     margin: 10px;
+    text-align: center;
 }
 
-nav li a {
+nav li > a {
     transition: background-color,color 200ms;
     display: block;
     text-align: center;
@@ -116,7 +126,7 @@ nav li a {
     color: var(--primary-color-light);
 }
 
-nav li:hover a {
+nav li:hover > a {
     background-color: var(--accent-color);
     color: var(--primary-color);
 }
