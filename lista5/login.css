@@ -34,24 +34,3 @@ form input[type="button"]:hover, form input[type="submit"]:hover {
     background-color: var(--accent-color);
     color: var(--primary-color);
 }
-
-footer {
-    z-index: 20;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-
-    width: 100%;
-}
-
-footer section {
-    text-align: center;
-    background-color: var(--primary-color-light);
-    padding: 10px;
-}
-
-footer section button {
-    border: 0;
-    background-color: var(--primary-color);
-    color: var(--accent-color);
-}

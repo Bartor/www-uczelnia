@@ -326,15 +326,8 @@ function generateCommentSection($articleId, $comments) {
             </section>
         </main>
 
-        <?php
-        if ($_COOKIE["cookies"] != "1") {
-        ?>
         <footer>
-            <section>
-                Nasza strona używa ciasteczek
-                <button id="cookies-click">ok</button>
-            </section>
+            XD
         </footer>
-        <?php } ?>
     </body>
 </html>
