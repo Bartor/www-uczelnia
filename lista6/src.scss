@@ -1,6 +1,5 @@
-$primary-color: #222222;
-$accent-color: #22caaf;
-$accent-color-dark: #33627a;
+@import "colors";
+$base-margin: 12px;
 
 ::-webkit-scrollbar {
   display: none;
@@ -45,7 +44,7 @@ body {
     align-items: flex-end;
 
     #hamburger {
-      margin: 12px;
+      margin: $base-margin;
       font-size: 3em;
 
       &:hover, &:active {
@@ -115,7 +114,7 @@ body {
 
   main {
     article {
-      padding: 148px 24px 24px 24px;
+      padding: 100px+$base-margin*4 $base-margin*2 $base-margin*2 $base-margin*2;
 
       &:nth-of-type(2n+1) {
         text-align: right;
